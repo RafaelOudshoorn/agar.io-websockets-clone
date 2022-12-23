@@ -36,20 +36,52 @@ function connectWS() {
         const data = JSON.parse(websocketData.data);
         switch(data.action){
             case "updateChat":
-                $("#chat").append("<span style='color:blue'>["+data.username+"]:</span> "+data.data+"<br>");
+                $("#chat").append("<span style='color:"+ data.color +"'>["+data.username+"]:</span> "+data.data+"<br>");
             break;
             case "playerJoinShowChat":
                 $("#chat").append("<span style='color:yellow'>"+data.data+" joined</span><br>");
             break;
             case "playerDisconnectShowChat":
                 $("#chat").append("<span style='color:yellow'>"+data.data+" disconnected</span><br>");
-                
+            break;
+            case "sendParticle":
+                const particle_top = Math.round(data.data.top);
+                const particle_left = Math.round(data.data.left);
+                const particle_color = data.data.color;
+                $('#particles_div').append('<div id="particle" class="particle'+ particle_top + particle_left +'"></div>');
+                $(".particle"+ particle_top + particle_left).css({
+                    top: particle_top,
+                    left: particle_left
+                });
+                $(".particle"+ particle_top + particle_left).css("background-color",particle_color);
+            break;
+            case "enterGame":
+                $('#players').append('<div id="ball" class="ball'+ data.id +'"><h6>'+ data.username +'</h6></div>');
+                $(".ball"+data.id).css({
+                    top: data.data.top,
+                    left: data.data.left,
+                    width: data.data.size,
+                    height: data.data.size
+                });
+                $(".ball"+data.id).css("background-color",data.data.color);
+                updateParticle(data);
+            break;
+            case "clearParticles":
+                $("div#particle").remove();
+            break;
+            case "clearParticle":
+                $("#particle").remove();
             break;
         }
-        // console.log('['+time+'] '+data.data);
     }
 }
-
+function updateParticle(data){
+    var player = $(".ball"+data.id);
+    var particle = $(".particle");
+    if (player.overlap(particle)) {
+        // The two divs overlap
+    }
+}
 function debug(data){
 
 }

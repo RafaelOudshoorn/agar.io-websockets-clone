@@ -14,15 +14,6 @@
                 for(var i = 1222;i > 0; i --){
                     $("#grid-container").append("<div id='grid-item'></div>");
                 }
-                for(var u = 1000;u > 0; u --){
-                    $('#game').append('<div id="particle" class="particle'+u+'"></div>');
-                    var randomTop = Math.random() * 875;
-                    var randomLeft = Math.random() * 1590;
-                    $('.particle'+u).css({
-                        top: randomTop,
-                        left: randomLeft
-                    });
-                }
             });
         </script>
     </head>
@@ -42,16 +33,44 @@
             <div id="list-lobbys"><h3>Room Codes</h3></div>
         </center>
         <div id="connected">
+            <button id="spawnParticles">Spawning</button>
+            <button id="clearParticles">Clear</button>
             <div id="game-container">
+                <div id="enter-game">
+                    <center>
+                        <h3>Agar.io clone</h3>
+                        <p>klik om te spelen</p>
+                        <button id="enter-game-button" class="btn btn-primary">Enter game</button>
+                    </center>
+                </div>
                 <div id="grid-container"></div>
-                <div id="game"></div>
+                <div id="game">
+                    <div id="particles_div"></div>
+                    <div id="players"></div>
+                </div>
             </div>
-            <div id="points">Points: 00000</div>
+            <div id="points">Points: <span id="showPoints"></span></div>
             <div id="scorebord"><h6>Scorebord</h6></div>
             <div id='chat'></div>
             <input type='text' id='message-input' placeholder='Enter message here'>
         </div>
         <script>
+            $("#enter-game-button").click(function(){
+                ws.send(JSON.stringify({
+                    "action": "enterGame"
+                }));
+                $("#enter-game").css("display", "none");
+            });
+            $("#spawnParticles").click(function(){
+                ws.send(JSON.stringify({
+                    "action": "spawnParticles"
+                }));
+            });
+            $("#clearParticles").click(function(){
+                ws.send(JSON.stringify({
+                    "action": "clearParticles"
+                }));
+            });
             $("#connect-btn").click(function(){
                 connectWS();
             });

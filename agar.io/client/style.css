@@ -81,10 +81,35 @@ body{
 }
 #particle{
     position: absolute;
-    height: 10px;
-    width: 10px;
+    height: 6px;
+    width: 6px;
     border: 1px solid #868686;
-    border-radius: 5px;
-    background: blue;
+    border-radius: 3px;
     opacity: 75%;
+}
+#enter-game{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    width: 300px;
+    height: 150px;
+    background-color: #868686;
+    border: 1px solid #868686;
+    border-radius: 25px;
+    padding: 10px;
+    z-index: 2;
+}
+#ball{
+    position: absolute;
+    border: 1px solid #868686;
+    border-radius: 50%;
+    z-index: 2;
+}
+#ball h6{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
 }
