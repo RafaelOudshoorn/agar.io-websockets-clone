@@ -13,16 +13,11 @@ ss.initialize(
             "room": null
         });
         ss.broadcast("client connected: " + id);
-        console.log(id + " connected!");
+        console.log("new client connected!");
     },
     // on disconnect
     function (id) {
-        let info = userInfo.get(id);
-        console.log("client disconnected: "+ info.username + " " + id);
-        ss.broadcast({
-            "action": "playerDisconnectShowChat",
-            "data": info.username
-        });
+        console.log("client disconnected: " + id);
         userInfo.delete(id);
     },
     // on message
@@ -32,10 +27,7 @@ ss.initialize(
             case "setusername":
                 info.username = data.data;
                 info.room = data.room;
-                ss.broadcast({
-                    "action": "playerJoinShowChat",
-                    "data": info.username
-                });
+    
                 ss.broadcast({
                     "action": "sendUpdatePlayers",
                     "data": sendUpdatePlayers()
@@ -49,8 +41,11 @@ ss.initialize(
                     "username": info.username,
                     "data": data.data
                 });
+                // chat(data,id);
         }
     }
+        // console.log("client message on id: " + id);
+        //ss.broadcast({ "message": "hallo" });
 );
 function sendUpdatePlayers() {
     ss.broadcast({
