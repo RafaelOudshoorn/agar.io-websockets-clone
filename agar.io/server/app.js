@@ -148,4 +148,4 @@ setInterval(function() {
     for(var i = u; i > 0; i --){
         clearParticle();
     }
-}, 950);
+}, 720);
