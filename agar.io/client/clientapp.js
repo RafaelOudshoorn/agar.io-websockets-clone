@@ -14,6 +14,7 @@ var getUrlParameter = function getUrlParameter(sParam) {
 };
 var dt = new Date();
 var time = dt.getHours() + ":" + dt.getMinutes() + ":" + dt.getSeconds();
+var ingame = false;
 
 let ws = null;
 function connectWS() {
@@ -61,13 +62,13 @@ function connectWS() {
                     height: data.data.size
                 });
                 $(".ball"+data.id).css("background-color",data.data.color);
-                updateParticle(data);
+                var ingame = true;
             break;
             case "clearParticles":
                 $("div#particle").remove();
             break;
             case "clearParticle":
-                $("#particle").remove();
+                // $("#particle").remove();
             break;
             case "moveUp":
             case "moveDown":
@@ -82,13 +83,27 @@ function connectWS() {
                 });
             break;
         }
+        if(ingame == true){
+            setInterval(function() {
+                updateParticle(data);
+            }, 100);
+        }
     }
 }
 function updateParticle(data){
     var player = $(".ball"+data.id);
-    const u = 875;
-    for(var i = 0;i > u;i++){
+    console.log(player);
+    for(var i = 0;i < 875;i++){
+        // console.log("active " + i);
         var particle = $(".particle"+i);
+        if (player.offset().top < particle.offset().top + particle.height() &&
+        player.offset().top + player.height() > particle.offset().top &&
+        player.offset().left < particle.offset().left + particle.width() &&
+        player.offset().left + player.width() > particle.offset().left) {
+        console.log("The two divs are overlapping");
+        } else {
+            console.log("The two divs are not overlapping");
+        }
     };
 }
 function debug(data){

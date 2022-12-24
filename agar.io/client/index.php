@@ -33,7 +33,7 @@
                 }
             });
             function ballMovement(dir){
-                console.log(dir);
+                // console.log(dir);
                 ws.send(JSON.stringify({
                     "action": "move"+dir
                 }));
