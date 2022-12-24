@@ -29,9 +29,6 @@ function connectWS() {
         $("#join-game").remove();
         $("#connected").css("display", "block");
     }
-    ws.addEventListener('message', (event) => {
-        // console.log(event.data);
-    });
     ws.onmessage = function(websocketData) {
         const data = JSON.parse(websocketData.data);
         switch(data.action){
@@ -48,12 +45,12 @@ function connectWS() {
                 const particle_top = Math.round(data.data.top);
                 const particle_left = Math.round(data.data.left);
                 const particle_color = data.data.color;
-                $('#particles_div').append('<div id="particle" class="particle'+ particle_top + particle_left +'"></div>');
-                $(".particle"+ particle_top + particle_left).css({
+                $('#particles_div').append('<div id="particle" class="particle'+ particle_top +'"></div>');
+                $(".particle"+ particle_top).css({
                     top: particle_top,
                     left: particle_left
                 });
-                $(".particle"+ particle_top + particle_left).css("background-color",particle_color);
+                $(".particle"+ particle_top).css("background-color",particle_color);
             break;
             case "enterGame":
                 $('#players').append('<div id="ball" class="ball'+ data.id +'"><h6>'+ data.username +'</h6></div>');
@@ -73,19 +70,26 @@ function connectWS() {
                 $("#particle").remove();
             break;
             case "moveUp":
+            case "moveDown":
                 $(".ball"+data.id).css({
-                    top: data.data.top,
-                    left: data.data.left,
+                    top: data.data
                 });
+            break;
+            case "moveRight":
+            case "moveLeft":
+                $(".ball"+data.id).css({
+                    left: data.data
+                });
+            break;
         }
     }
 }
 function updateParticle(data){
     var player = $(".ball"+data.id);
-    var particle = $(".particle");
-    // if (player.overlap(particle)) {
-        // The two divs overlap
-    // }
+    const u = 875;
+    for(var i = 0;i > u;i++){
+        var particle = $(".particle"+i);
+    };
 }
 function debug(data){
 

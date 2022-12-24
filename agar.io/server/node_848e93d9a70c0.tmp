@@ -25,7 +25,7 @@ ss.initialize(
                 "top": null,
                 "left": null,
                 "size": null,
-                "score": null
+                "points": null
             }
         });
         ss.broadcast("client connected: " + id);
@@ -80,7 +80,7 @@ ss.initialize(
                 info.ball.top = Math.floor(Math.random() * 875);
                 info.ball.left = Math.floor(Math.random() * 1590);
                 info.ball.size = 15;
-                info.ball.score = 0;
+                info.ball.points = 0;
                 const color = Math.floor(Math.random() * colors.length);
                 info.color = colors[color];
 
@@ -92,7 +92,7 @@ ss.initialize(
                         "top": info.ball.top,
                         "left": info.ball.left,
                         "size": info.ball.size,
-                        "points": info.ball.score,
+                        "points": info.ball.points,
                         "color": info.color
                     }
                 });
