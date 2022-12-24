@@ -15,6 +15,43 @@
                     $("#grid-container").append("<div id='grid-item'></div>");
                 }
             });
+            $("html").keydown(function(e){
+                switch(e.keyCode){
+                    case 38:
+                        ballMovement(up);
+                    break;
+                    case 39:
+                        ballMovement(right);
+                    break;
+                    case 40:
+                        ballMovement(down);
+                    break;
+                    case 37:
+                        ballMovement(left);
+                    break;
+                }
+                // debug("keydown");
+            });
+            function ballMovement(dir){
+                var direction = null;
+                switch(dir){
+                    case "up":
+                        var direction = "up";
+                    break;
+                    case "right":
+                        var direction = "right";
+                    break;
+                    case "down":
+                        var direction = "down";
+                    break;
+                    case "left":
+                        var direction = "left";
+                    break;
+                }
+                ws.send(JSON.stringify({
+                    "action": "move"+direction
+                }));
+            }
         </script>
     </head>
     <body>

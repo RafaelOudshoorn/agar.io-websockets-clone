@@ -72,15 +72,20 @@ function connectWS() {
             case "clearParticle":
                 $("#particle").remove();
             break;
+            case "moveUp":
+                $(".ball"+data.id).css({
+                    top: data.data.top,
+                    left: data.data.left,
+                });
         }
     }
 }
 function updateParticle(data){
     var player = $(".ball"+data.id);
     var particle = $(".particle");
-    if (player.overlap(particle)) {
+    // if (player.overlap(particle)) {
         // The two divs overlap
-    }
+    // }
 }
 function debug(data){
 
