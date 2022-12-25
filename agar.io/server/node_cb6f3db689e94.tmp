@@ -96,36 +96,52 @@ ss.initialize(
                     }
                 });
             break;
-            case "moveUp":
-                info.ball.top --;
+            case "move":
+                switch(data.data){
+                    case "up":
+                        info.ball.top --;
+                    break;
+                    case "down":
+                        info.ball.top ++;
+                    break;
+                    case "left":
+                        info.ball.left --;
+                    break;
+                    case "right":
+                        info.ball.left ++;
+                    break;
+                }
                 ss.broadcast({
-                    "action": "moveUp",
+                    "action": "move",
                     "id": id,
-                    "data": info.ball.top
+                    "data": {
+                        "top": info.ball.top,
+                        "left": info.ball.left,
+                        "size": info.ball.size,
+                        "score": info.ball.score
+                    }
                 });
             break;
-            case "moveRight":
-                info.ball.left ++;
+            case "eatenParticle":
+                info.ball.size ++;
+                info.ball.score ++;
                 ss.broadcast({
-                    "action": "moveRight",
-                    "id": id,
-                    "data": info.ball.left
-                });
-            break;
-            case "moveDown":
-                info.ball.top ++;
-                ss.broadcast({
-                    "action": "moveDown",
-                    "id": id,
-                    "data": info.ball.top
-                });
-            break;
-            case "moveLeft":
-                info.ball.left --;
-                ss.broadcast({
-                    "action": "moveLeft",
-                    "id": id,
-                    "data": info.ball.left
+                    "action": "chat",
+                    "data": "grew"
+                })
+                userInfo.forEach(function(client){
+                    ss.broadcast({
+                        "action": "updateSize",
+                        "id": client.id,
+                        "data": client.ball
+                    });
+                    ss.broadcast({
+                        "action": "removeParticle",
+                        "data": {
+                            "top": data.data.top,
+                            "left": data.data.left
+                        }
+                    })
                 });
             break;
         }
@@ -145,19 +161,19 @@ function getPlayers() {
     return result;
 }
 function spawnParticle(){
-    var u = Math.floor(Math.random() * 40);
-    for(var i = u; i > 0; i --){
-        var randomTop = Math.random() * 875;
-        var randomLeft = Math.random() * 1590;
-        const color = Math.floor(Math.random() * colors.length);
-        ss.broadcast({
-            "action": "sendParticle",
-            "data": {
-                "top": randomTop,
-                "left": randomLeft,
-                "color": colors[color]
-            }
-        });
+        var u = Math.floor(Math.random() * 40);
+        for(var i = u; i > 0; i --){
+            var randomTop = Math.floor(Math.random() * 875);
+            var randomLeft = Math.floor(Math.random() * 1590);
+            const color = Math.floor(Math.random() * colors.length);
+            ss.broadcast({
+                "action": "spawnParticle",
+                "data": {
+                    "top": randomTop,
+                    "left": randomLeft,
+                    "color": colors[color]
+                }
+            });
     }
 }
 function clearParticle(){
@@ -172,10 +188,10 @@ function clearParticles(){
 }
 setInterval(function() {
     spawnParticle();
-}, 500);
+}, 1500);
 setInterval(function() {
     var u = Math.floor(Math.random() * 30);
     for(var i = u; i > 0; i --){
         clearParticle();
     }
-}, 600);
+}, 3000);
