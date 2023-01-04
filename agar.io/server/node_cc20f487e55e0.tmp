@@ -99,24 +99,16 @@ ss.initialize(
             case "move":
                 switch(data.data){
                     case "up":
-                        if(info.ball.top >= 0){
-                            info.ball.top --;
-                        }
+                        info.ball.top --;
                     break;
                     case "down":
-                        if(info.ball.top + info.ball.size <= 882){
-                            info.ball.top ++;
-                        }
+                        info.ball.top ++;
                     break;
                     case "left":
-                        if(info.ball.left >= 0){
-                            info.ball.left --;
-                        }
+                        info.ball.left --;
                     break;
                     case "right":
-                        if(info.ball.left + info.ball.size <= 1597){
-                            info.ball.left ++;
-                        }
+                        info.ball.left ++;
                     break;
                 }
                 ss.broadcast({

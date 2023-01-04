@@ -51,16 +51,17 @@ function connectWS() {
                 $(".particle"+ data.data.top + data.data.left).css("background-color",data.data.color);
             break;
             case "updateParticle":
-                var player = $("#ball"+data.id).offset();
-                console.log(player);
+                var player1 = $("#ball"+data.id).offset();
+                console.log(player1);
+                // console.clear();
             break;
             case "enterGame":
                 $('#players').append('<div id="ball'+ data.id +'" class="ball"><h6>'+ data.username +'</h6></div>');
                 $("#ball"+data.id).css({
-                    top: data.data.top,
-                    left: data.data.left,
-                    width: data.data.size,
-                    height: data.data.size
+                    "width": data.data.size,
+                    "height": data.data.size,
+                    "top": data.data.top,
+                    "left": data.data.left
                 });
                 $("#ball"+data.id).css("background-color",data.data.color);
             break;
@@ -73,47 +74,63 @@ function connectWS() {
             case "removeParticle":
                 $(".particle"+ data.data.top + data.data.left).remove();
                 console.log(data.data);
+                console.clear();
             break;
             case "clearParticles":
-                // $("div#particle").remove();
+                $("div#particle").remove();
             break;
             case "clearParticle":
-                // $("#particle").remove();
+                $("#particle").remove();
             break;
             case "move":
                 $("#ball"+data.id).css({
                     top: data.data.top,
                     left: data.data.left
                 });
+                
                 $("#showScore").html(data.data.score);
-                var player = $("#ball"+data.id);
-                var plOffset =  player.position();
-                var plWidth = player.outerWidth();
-                var plHeight = player.outerHeight();
-                // console.log(
-                //     player,
-                //     plOffset,
-                //     plWidth,
-                //     plHeight
-                // );
+
+                const player = $("#ball"+data.id);
+                const plTop = $("#ball"+data.id).css("top").replace(/px/g, "");
+                const plBottom = $("#ball"+data.id).css("bottom").replace(/px/g, "");
+                const plLeft = $("#ball"+data.id).css("left").replace(/px/g, "");
+                const plRight = $("#ball"+data.id).css("right").replace(/px/g, "");
+
+                // console.log(plLeft + " - " + plRight);
+                // ik heb geen idee hoe ik er achter moet komen welke "#particle" overlapt met een speler
+                // for(var i=plLeft;i<plRight;i--){
+                //     console.log(i);
+                // }
+                
+                // if($("#particle").css("right") == plRight){
+                //     console.clear();
+                // }
+
                 // if($("#particle").hasClass(".particle"+ data.data.top + data.data.left)){
                 //     particleOffset(data.data.top, data.data.left);
+                //     console.log("11");
                 // }else{
-                var u = data.data.width;
-                for(var i = 15;i > 0;i--){
-                    var newTop = data.data.top + i;
-                    var newLeft = data.data.left + i;
-                    console.log(newTop, newLeft);
-                    if($("#particle").hasClass(".particle"+ data.data.top + newLeft)){
-                        particleOffset(data.data.top, newLeft);
-                    }
-                    if($("#particle").hasClass(".particle"+ newTop + data.data.left)){
-                        particleOffset(newTop, data.data.left);
-                    }
-                }
+                // // var u = data.data.width;
+                // for(var i = 15;i > 0;i--){
+                //     var newTop = data.data.top;
+                //     var newLeft = data.data.left;
+                //     if($("#particle").hasClass(".particle"+ data.data.top + newLeft)){
+                //         particleOffset(data, data.data.top, newLeft);
+                //         // console.clear();
+                //     }
+                //     else if($("#particle").hasClass(".particle"+ data.data.top + newLeft)){
+                //         console.log("1");
+                //     }
+                //     else{
+                //         console.log("0");
+                //     }
+                //     if(!$("#particle").hasClass(".particle"+ newTop + data.data.left)){
+                //         particleOffset(data, newTop, data.data.left);
+                //     }
+                //     // console.log(newTop, newLeft);
                 // }
-                function particleOffset(top,left){
-                    
+                function particleOffset(data,top,left){
+                    // console.clear();
                     var particle = $(".particle"+ top + left);
                     var parOffset =  particle.position();
                     var parWidth = particle.outerWidth();
@@ -133,8 +150,9 @@ function connectWS() {
                             }
                         }));
                     }else{
-                        console.log("jokes on you go sleep");
+                        console.log("jokes on you, go sleep");
                     }
+                    
                 }
             break;
         }
