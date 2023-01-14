@@ -61,6 +61,10 @@ ss.initialize(
                     "action": "initializeparticles",
                     "data": particles
                 });
+
+                // for(var i=0; i<particles.length; i++){
+                //     //console.log(particles[i].id);
+                //   }
             break;
             case "chat":
                 var chatColor = "black";
@@ -81,6 +85,7 @@ ss.initialize(
                 clearParticles();
             break;
             case "enterGame":
+                //spawnParticle();
                 info.ball.top = Math.floor(Math.random() * 875);
                 info.ball.left = Math.floor(Math.random() * 1590);
                 info.ball.size = 15;
@@ -124,6 +129,9 @@ ss.initialize(
                         }
                     break;
                 }
+
+                //console.log("CHECK COLLIDE");
+
                 // checken hebben we een particle geraakt
                 if(checkCollision(info.ball)) {
                     info.ball.size = info.ball.size + 1;
@@ -131,6 +139,7 @@ ss.initialize(
                     info.ball.left = info.ball.left;
                     info.ball.top = info.ball.top;
                 }
+
                 ss.broadcast({
                     "action": "move",
                     "id": id,
@@ -169,6 +178,7 @@ ss.initialize(
         }
     }
 );
+
 function checkCollision(ball) {
     var collide = false;
     for(var i = particles.length - 1; i >= 0; i --) {
@@ -181,6 +191,7 @@ function checkCollision(ball) {
 
     return collide;
 }
+
 function checkParticleCollide(ball, particle) {
     if(particle.left > ball.left &&
         particle.top > ball.top &&
@@ -191,6 +202,7 @@ function checkParticleCollide(ball, particle) {
 
     return false;
 }
+
 function eatParticle(pid) {
     userInfo.forEach(function(client){
         ss.broadcast({
@@ -199,6 +211,7 @@ function eatParticle(pid) {
         });
     });
 }
+
 function sendUpdatePlayers() {
     ss.broadcast({
         "action": "updatePlayers",
@@ -237,13 +250,34 @@ function spawnParticle(){
                     "color": colors[pColor]
                 }
             });
+
+            //particleToClient(pid,randomTop,randomLeft);
     }
+}
+function particleToClient(id,top,left){
+    const color = Math.floor(Math.random() * colors.length);
+    ss.broadcast({
+        "action": "spawnParticle",
+        "data": {
+            "id": id,
+            "top": top,
+            "left": left,
+            "color": colors[color]
+        }
+    });
+    // console.log(particles[]);
 }
 function clearParticle(){
     if(particles.length > 1) {
         var index = Math.floor(Math.random() * (particles.length - 1));
+        // console.log(particles.length);
+        // console.log(index);
+        
         var id = particles[index].id;
         particles.splice(index, 1);
+
+        //console.log(particles.length);
+
         ss.broadcast({
             "action": "clearParticle",
             "data": id
