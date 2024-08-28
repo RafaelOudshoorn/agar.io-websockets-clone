@@ -1,4 +1,4 @@
-# agario-clone-NodeJS
+# agar.io clone
 A clone of agar.io game build with websockets NodeJS
 
 * requires Node.js
